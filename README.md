@@ -15,6 +15,11 @@ The script finally prints out the merged DataFrame with the PCA scores.
 
 ## Libraries Used
 
+- os, dotenv: Used for reading environment variables from a .env file.
 - pandas: A software library for data manipulation and analysis. Used for reading the data files, handling missing values, and merging the datasets.
 - sklearn.preprocessing: Provides the StandardScaler class for standardizing features by removing the mean and scaling to unit variance.
 - sklearn.decomposition: Provides the PCA class for applying Principal Component Analysis on the standardized features.
+
+## Disclaimer
+
+In this exercise, the `.env` file is visible for demonstration purposes. However, in a real-world scenario, it's important to add the `.env` file to your `.gitignore` file to prevent it from being committed to your git repository. This helps to prevent sensitive information like API keys, database credentials, etc., from being exposed.
