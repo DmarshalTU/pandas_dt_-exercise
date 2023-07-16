@@ -15,11 +15,12 @@ def read_data():
     df1 = pd.read_excel(os.getenv("EXCEL_FILE_PATH"))
     df2 = pd.read_csv(os.getenv("CSV_FILE_PATH"))
     
-    # Get the common columns in both DataFrames, excluding 'ID'
-    common_columns = list(set(df1.columns) & set(df2.columns))
-    common_columns.remove('ID')
+    # Get the columns in both DataFrames, excluding 'ID'
+    features = list(df1.columns) + list(df2.columns)
+    features = list(set(features))  # remove duplicates
+    features.remove('ID')
     
-    return df1, df2, common_columns
+    return df1, df2, features
 
 
 def handle_missing_values(df1, df2, features):
@@ -44,16 +45,32 @@ def apply_pca(x):
     """Function to apply PCA and get the first principal component."""
     return PCA(n_components=1).fit_transform(x)
 
+def print_data_info(df, file_name):
+    """Function to print initial data information."""
+    print(f"\nData Information for {file_name}:")
+    print(f"Number of rows: {df.shape[0]}")
+    print(f"Number of columns: {df.shape[1]}")
+    print("\nFirst two rows:")
+    print(df.head(2))
+    print("\nLast two rows:")
+    print(df.tail(2))
+    print("\nSample of five random rows:")
+    print(df.sample(5))
+
 def main():
     # Read data
     df1, df2, features = read_data()
+    
+    # Print initial data information
+    print_data_info(df1, "Excel File")
+    print_data_info(df2, "CSV File")
     
     # Handle missing values
     df1, df2 = handle_missing_values(df1, df2, features)
     
     # Merge data
     df = merge_data(df1, df2)
-    
+
     # Standardize features
     x = standardize_features(df, features)
     
